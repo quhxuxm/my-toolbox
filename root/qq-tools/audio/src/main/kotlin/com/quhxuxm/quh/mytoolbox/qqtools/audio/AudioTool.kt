@@ -113,6 +113,7 @@ object AudioTool {
             }
             Files.copy(finalMp3File.toPath(), targetPath.resolve(finalMp3File.name),
                     StandardCopyOption.REPLACE_EXISTING)
+            threadPool.shutdownNow()
         }
     }
 }
