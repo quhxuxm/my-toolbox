@@ -24,6 +24,10 @@
             <artifactId>slf4j-log4j12</artifactId>
         </dependency>
         <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.quhxuxm.quh.mytoolbox.qqtools</groupId>
             <artifactId>common</artifactId>
             <version>${project.version}</version>

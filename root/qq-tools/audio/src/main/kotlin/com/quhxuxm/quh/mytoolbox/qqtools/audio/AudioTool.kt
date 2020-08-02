@@ -5,6 +5,7 @@ import com.quhxuxm.quh.mytoolbox.qqtools.common.bo.MyCollectionResourceType
 import com.quhxuxm.quh.mytoolbox.qqtools.common.bo.QQInfo
 import com.quhxuxm.quh.mytoolbox.qqtools.common.collector.MyCollectionResourceCollector
 import com.quhxuxm.quh.mytoolbox.qqtools.common.exception.QQToolsException
+import org.apache.commons.io.FileUtils
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.StandardCopyOption
@@ -19,13 +20,13 @@ object AudioTool {
         if (!targetDirFile.exists()) {
             targetDirFile.mkdirs()
         }
-        val tmpDir = targetPath.resolve(".converting")
-        val tmpDirFile = tmpDir.toFile()
-        if (!tmpDirFile.exists()) {
-            tmpDirFile.mkdirs()
+        val convertingDir = targetPath.resolve(".converting")
+        val convertingDirFile = convertingDir.toFile()
+        if (!convertingDirFile.exists()) {
+            convertingDirFile.mkdirs()
         }
-        val ffmpegExeAbsolutePath = tmpDir.resolve(FFMPEG_EXE)
-        val silkV3DecoderExeAbsolute = tmpDir.resolve(SILK_V3_DECODER_EXE)
+        val ffmpegExeAbsolutePath = convertingDir.resolve(FFMPEG_EXE)
+        val silkV3DecoderExeAbsolute = convertingDir.resolve(SILK_V3_DECODER_EXE)
         val ffmpegExeInputStream = AudioTool::class.java.classLoader.getResourceAsStream(FFMPEG_EXE)
         if (ffmpegExeInputStream == null) {
             throw QQToolsException()
@@ -36,8 +37,8 @@ object AudioTool {
         }
         Files.copy(ffmpegExeInputStream, ffmpegExeAbsolutePath, StandardCopyOption.REPLACE_EXISTING)
         Files.copy(silkV3DecoderExeInputStream, silkV3DecoderExeAbsolute, StandardCopyOption.REPLACE_EXISTING)
-        val randomTmpAmrFileDirPath = tmpDir.resolve(UUID.randomUUID().toString().replace("-", ""))
-        val randomTmpPcmFileDirPath = tmpDir.resolve(UUID.randomUUID().toString().replace("-", ""))
+        val randomTmpAmrFileDirPath = convertingDir.resolve(UUID.randomUUID().toString().replace("-", ""))
+        val randomTmpPcmFileDirPath = convertingDir.resolve(UUID.randomUUID().toString().replace("-", ""))
         randomTmpAmrFileDirPath.toFile().mkdirs()
         randomTmpPcmFileDirPath.toFile().mkdirs()
         val qqInfo = QQInfo(qqUsername, osUserDir)
@@ -57,5 +58,6 @@ object AudioTool {
                 Runtime.getRuntime().exec(ffmpegCommand)
             }
         }
+        FileUtils.deleteDirectory(convertingDirFile)
     }
 }
