@@ -1,0 +1,15 @@
+*.iml
+.idea
+**/*/target/**/*
+*.project
+*.classpath
+*.factorypath
+*.settings
+.vscode
+.gradle
+build
+log
+gradle
+gradlew
+gradlew.bat
+tmp
