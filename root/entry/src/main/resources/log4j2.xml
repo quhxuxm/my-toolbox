@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<Configuration>
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss:SSS} %p TraceId:%X{traceId} %t %c %x %m %n
+        </Property>
+    </Properties>
+    <Appenders>
+        <Console name="STDOUT"
+                 target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <LevelRangeFilter minLevel="FATAL"
+                              maxLevel="DEBUG"
+                              onMatch="ACCEPT"/>
+        </Console>
+        <RollingFile name="FILE_APPENDER"
+                     fileName="./log/toolbox.log"
+                     filePattern="./log/archive/toolbox.%d{yyyy-MM-dd}.log">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+            <LevelRangeFilter minLevel="FATAL"
+                              maxLevel="DEBUG"
+                              onMatch="ACCEPT"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <logger name="com.quhxuxm.quh.mytoolbox"
+                additivity="false"
+                level="debug">
+            <appender-ref ref="STDOUT"/>
+        </logger>
+        <Root level="error">
+            <appender-ref ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>

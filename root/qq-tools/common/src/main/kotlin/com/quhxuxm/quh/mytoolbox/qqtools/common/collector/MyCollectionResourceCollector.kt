@@ -22,7 +22,8 @@ object MyCollectionResourceCollector {
     private val logger = LoggerFactory.getLogger(MyCollectionResourceCollector::class.java)
     fun collectFiles(qqInfo: QQInfo, myCollectionResourceType: MyCollectionResourceType,
                      targetCollectResourceType: CollectResourceType, targetFolderPath: Path,
-                     historyFilePath: Path = Path.of("./tmp", ".history")) {
+                     historyFilePath: Path = Path.of("./tmp", ".history"),
+                     callback: (targetFolderPath: Path) -> Unit = {}) {
         val qqResourceFolderPath =
                 qqInfo.osUserFolderPath.resolve(DOCUMENT_FOLDER_NAME).resolve(TENCENT_FILES_FOLDER_NAME)
                         .resolve(qqInfo.qqUsername).resolve(MY_COLLECTION_FOLDER_NAME)
@@ -73,5 +74,6 @@ object MyCollectionResourceCollector {
         historyFileLines.forEach {
             historyFile.appendText("$it\n")
         }
+        callback(targetFolderPath)
     }
 }
